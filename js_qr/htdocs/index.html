@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Webサイト上でQRコードを生成する</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<script type="text/javascript" src="qrcode.js"></script>
+</head>
+
+<body>
+	<h1>Webサイト上でQRコードを生成する</h1>
+	<p>
+		qrcode.jsを利用<br />
+		<a href="https://davidshimjs.github.io/qrcodejs/" target="_blank">https://davidshimjs.github.io/qrcodejs/</a><br />
+		<br />
+		※注意 案件で利用する場合は、「QRコード」表記（登録商標）について確認すること<br />
+		<a href="https://www.qrcode.com/faq.html" target="_blank">https://www.qrcode.com/faq.html</a>
+	</p>
+	<input id="textInput" type="text" value="https://www.qrcode.com/" style="width:80%" /><br />
+	<button id="convertBtn" style="margin-top: 10px;">変換</button><br />
+	<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
+	<script type="text/javascript">
+		// サンプルスクリプトを改変  
+		// https://github.com/davidshimjs/qrcodejs/blob/master/index.html
+
+		// テキストインプットの要素を取得
+		var textInputElm = document.getElementById('textInput');
+
+		// qrcodejsの初期設定
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+			width: 400,
+			height: 400,
+			colorDark: '#000000',
+			colorLight: '#FFFFFF',
+			correctLevel: QRCode.CorrectLevel.M
+		});
+
+		// コード生成する関数
+		function makeCode() {
+			// inputが空だったらアラート
+			if (!textInputElm.value) {
+				alert("Input some text in textarea.");
+				textInputElm.value = 'https://www.qrcode.com/'
+				return;
+			}
+			qrcode.makeCode(textInputElm.value);
+		}
+
+		// ページ読み込み時にQRコード生成
+		window.addEventListener('load', function () {
+			makeCode();
+		})
+
+		// 入力フォームでEnterキーを押したらQRコード生成
+		textInputElm.addEventListener('keydown', function (e) {
+			if (e.keyCode == 13) {
+				makeCode();
+			}
+		})
+
+		// 変換ボタンをクリックしたらQRコード生成
+		var convertBtnElm = document.getElementById('convertBtn')
+		convertBtnElm.addEventListener('click', function () {
+			makeCode()
+		})
+	</script>
+</body>
